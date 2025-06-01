@@ -1,159 +1,400 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Love Diary 🐾</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', cursive;
-      background: url('https://i.imgur.com/YGxuBlJ.jpg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    .container {
-      max-width: 500px;
-      margin: 80px auto;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px #ffaad4;
-    }
-    h1 {
-      text-align: center;
-      color: #ff69b4;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 2px solid #ffc0cb;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-    button {
-      background-color: #ff69b4;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .hidden {
-      display: none;
-    }
-    .emoji {
-      cursor: pointer;
-      font-size: 24px;
-      margin: 3px;
-    }
-    .note {
-      background: #ffe6f0;
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: 10px;
-      white-space: pre-wrap;
-    }
-    .timeline {
-      margin-top: 20px;
-    }
-    .quote {
-      text-align: center;
-      font-style: italic;
-      color: #d63384;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌 Hộp Tin Nhắn Ngọt Ngào Của Bạn 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff6e7f; /* Hồng chính */
+            --secondary-orange: #ff9a85; /* Cam phụ */
+            --accent-purple: #a82e8f; /* Tím điểm nhấn */
+            --text-dark: #4a4a4a;
+            --text-light: #ffffff;
+            --bg-light: rgba(255, 255, 255, 0.95);
+            --shadow-light: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --border-light: #ffbe85;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--secondary-orange) 0%, var(--primary-pink) 100%);
+            font-family: 'Poppins', sans-serif; /* Phông chữ hiện đại, dễ đọc */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow: hidden; /* Ngăn cuộn ngoài */
+        }
+
+        .container {
+            background-color: var(--bg-light);
+            padding: 40px;
+            border-radius: 25px; /* Bo tròn nhiều hơn */
+            box-shadow: var(--shadow-light);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            border: 3px solid var(--border-light); /* Viền màu cam nhạt */
+            position: relative; /* Cho phép các phần con định vị tuyệt đối */
+            overflow: hidden; /* Ẩn phần tràn khi chuyển đổi */
+        }
+
+        /* --- Global Styles for Headers & Inputs --- */
+        h1, h2 {
+            font-family: 'Pacifico', cursive; /* Phông chữ đáng yêu cho tiêu đề */
+            color: var(--accent-purple); /* Màu tím cho tiêu đề */
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 24px); /* Kích thước input */
+            padding: 14px;
+            margin-bottom: 18px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px; /* Bo tròn input */
+            font-size: 1.1em;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-pink); /* Đổi màu viền khi focus */
+        }
+
+        .cute-button {
+            background-color: var(--primary-pink);
+            color: var(--text-light);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px; /* Bo tròn nút */
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: 5px;
+        }
+        .cute-button:hover {
+            background-color: #e05e6b; /* Hồng đậm hơn khi hover */
+            transform: translateY(-3px); /* Hiệu ứng nhấn nút */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        .cute-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* --- Auth Section Styles --- */
+        #authSection {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #authSection.hidden {
+            opacity: 0;
+            transform: translateX(-100%);
+            position: absolute; /* Để không chiếm không gian */
+        }
+
+        .auth-toggle {
+            margin-top: 20px;
+            font-size: 0.95em;
+            color: #666;
+        }
+        .auth-toggle span {
+            color: var(--accent-purple);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .auth-toggle span:hover {
+            color: var(--primary-pink);
+        }
+
+        /* --- Message Section Styles --- */
+        #messageSection {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute; /* Để không chiếm không gian */
+            top: 40px; /* Căn chỉnh vị trí */
+            left: 40px; /* Căn chỉnh vị trí */
+            right: 40px; /* Căn chỉnh vị trí */
+            width: calc(100% - 80px); /* Đảm bảo chiều rộng phù hợp với padding container */
+            opacity: 0;
+            transform: translateX(100%);
+            pointer-events: none; /* Ngăn chặn tương tác khi ẩn */
+        }
+
+        #messageSection.visible {
+            opacity: 1;
+            transform: translateX(0);
+            position: static; /* Để chiếm không gian khi hiển thị */
+            pointer-events: all; /* Cho phép tương tác */
+        }
+
+        #messageList {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            max-height: 300px; /* Giới hạn chiều cao */
+            overflow-y: auto; /* Cuộn nếu nhiều tin nhắn */
+            border-top: 1px dashed var(--border-light);
+            padding-top: 20px;
+            text-align: left;
+        }
+        #messageList li {
+            background-color: #ffe0b2; /* Nền tin nhắn màu cam rất nhạt */
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-radius: 15px; /* Bo tròn tin nhắn */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            color: var(--text-dark);
+            font-size: 1.05em;
+            word-wrap: break-word; /* Ngắt chữ dài */
+        }
+        #messageList li:last-child {
+            margin-bottom: 0; /* Không có margin dưới cùng cho item cuối */
+        }
+
+        /* Scrollbar styles for messageList */
+        #messageList::-webkit-scrollbar {
+            width: 8px;
+        }
+        #messageList::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        #messageList::-webkit-scrollbar-thumb {
+            background: var(--primary-pink);
+            border-radius: 10px;
+        }
+        #messageList::-webkit-scrollbar-thumb:hover {
+            background: #e05e6b;
+        }
+
+        /* Home button for message section */
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--accent-purple);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #8c2777;
+        }
+
+    </style>
 </head>
 <body>
-  <div class="container" id="auth">
-    <h1>💕 Nhật Ký Tình Yêu 💕</h1>
-    <input type="text" id="username" placeholder="Tên người yêu 💖">
-    <input type="password" id="password" placeholder="Mật khẩu bí mật 🔒">
-    <button onclick="register()">Đăng ký</button>
-    <button onclick="login()">Đăng nhập</button>
-  </div>
+    <div class="container">
+        <button class="home-button" id="homeButton" style="display: none;">🏠</button>
 
-  <div class="container hidden" id="diary">
-    <h1>📝 Viết Nhật Ký</h1>
-    <div>
-      <div>
-        <span class="emoji" onclick="addEmoji('❤️')">❤️</span>
-        <span class="emoji" onclick="addEmoji('🐱')">🐱</span>
-        <span class="emoji" onclick="addEmoji('🌸')">🌸</span>
-        <span class="emoji" onclick="addEmoji('💋')">💋</span>
-        <span class="emoji" onclick="addEmoji('💌')">💌</span>
-      </div>
-      <textarea id="entry" rows="5" placeholder="Ghi điều gì đó ngọt ngào..."></textarea>
-      <button onclick="saveEntry()">Lưu nhật ký</button>
+        <div id="authSection">
+            <h1>Chào Mừng Trở Lại! 💕</h1>
+            <input type="text" id="usernameAuth" placeholder="🌸 Tên người dùng của bạn">
+            <input type="password" id="passwordAuth" placeholder="🔑 Mật khẩu bí mật">
+            <button id="loginBtn" class="cute-button">Đăng Nhập</button>
+            <button id="registerBtn" class="cute-button">Đăng Ký</button>
+            <p class="auth-toggle">
+                Bạn chưa có tài khoản? <span id="showRegister">Đăng ký ngay!</span>
+                <br>
+                Bạn đã có tài khoản? <span id="showLogin" style="display: none;">Đăng nhập!</span>
+            </p>
+            <p id="authMessage" style="color: red; margin-top: 10px;"></p>
+        </div>
+
+        <div id="messageSection">
+            <h2>💖 Hộp Tin Nhắn Ngọt Ngào Của Bạn 💖</h2>
+            <input type="text" id="messageInput" placeholder="💌 Nhập tin nhắn ngọt ngào của bạn...">
+            <button id="sendButton" class="cute-button">Gửi Lời Yêu Thương!</button>
+
+            <h3>Những Lời Nhắn Gửi:</h3>
+            <ul id="messageList">
+                </ul>
+        </div>
     </div>
-    <div class="timeline" id="entries"></div>
-    <div class="quote">"Yêu là khi tim bạn cười mỗi lần nghĩ đến ai đó." 🐾</div>
-    <button onclick="logout()">Đăng xuất</button>
-  </div>
 
-  <script>
-    // Lưu trữ đơn giản bằng localStorage
-    const users = JSON.parse(localStorage.getItem('users') || '{}');
-    const entries = JSON.parse(localStorage.getItem('entries') || '{}');
-    let currentUser = null;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authSection = document.getElementById('authSection');
+            const messageSection = document.getElementById('messageSection');
+            const homeButton = document.getElementById('homeButton');
 
-    function register() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value;
-      if (!user || !pass) return alert('Điền đầy đủ thông tin nhé!');
-      if (users[user]) return alert('Tên này đã có rồi 🥺');
-      users[user] = pass;
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('Đăng ký thành công 💕');
-    }
+            const usernameAuthInput = document.getElementById('usernameAuth');
+            const passwordAuthInput = document.getElementById('passwordAuth');
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const showRegisterSpan = document.getElementById('showRegister');
+            const showLoginSpan = document.getElementById('showLogin');
+            const authMessage = document.getElementById('authMessage');
 
-    function login() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value;
-      if (users[user] === pass) {
-        currentUser = user;
-        showDiary();
-      } else {
-        alert('Sai tên hoặc mật khẩu 😿');
-      }
-    }
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const messageList = document.getElementById('messageList');
 
-    function logout() {
-      currentUser = null;
-      document.getElementById('diary').classList.add('hidden');
-      document.getElementById('auth').classList.remove('hidden');
-    }
+            // --- GIẢ LẬP TRẠNG THÁI ĐĂNG NHẬP (KHÔNG LƯU VÀO CSDL) ---
+            let isLoggedIn = false;
+            let currentUsername = '';
+            const users = {}; // Giả lập CSDL người dùng: { username: password }
+            const userMessages = {}; // Giả lập CSDL tin nhắn: { username: [msg1, msg2] }
 
-    function showDiary() {
-      document.getElementById('auth').classList.add('hidden');
-      document.getElementById('diary').classList.remove('hidden');
-      loadEntries();
-    }
+            function showAuthSection(isRegisterMode = false) {
+                authSection.classList.remove('hidden');
+                messageSection.classList.remove('visible');
+                homeButton.style.display = 'none';
 
-    function addEmoji(emoji) {
-      document.getElementById('entry').value += emoji;
-    }
+                authSection.style.position = 'static'; // Đặt lại vị trí để hiển thị
+                messageSection.style.position = 'absolute'; // Ẩn tin nhắn
+                authSection.style.transform = 'translateX(0)';
+                messageSection.style.transform = 'translateX(100%)';
+                authSection.style.opacity = '1';
+                messageSection.style.opacity = '0';
+                messageSection.style.pointerEvents = 'none';
 
-    function saveEntry() {
-      const text = document.getElementById('entry').value.trim();
-      if (!text) return;
-      if (!entries[currentUser]) entries[currentUser] = [];
-      entries[currentUser].push({ text, time: new Date().toLocaleString() });
-      localStorage.setItem('entries', JSON.stringify(entries));
-      document.getElementById('entry').value = '';
-      loadEntries();
-    }
+                if (isRegisterMode) {
+                    loginBtn.style.display = 'none';
+                    registerBtn.style.display = 'inline-block';
+                    showRegisterSpan.style.display = 'none';
+                    showLoginSpan.style.display = 'inline';
+                    authSection.querySelector('h1').textContent = 'Đăng Ký Tài Khoản Mới! ✨';
+                } else {
+                    loginBtn.style.display = 'inline-block';
+                    registerBtn.style.display = 'none';
+                    showRegisterSpan.style.display = 'inline';
+                    showLoginSpan.style.display = 'none';
+                    authSection.querySelector('h1').textContent = 'Chào Mừng Trở Lại! 💕';
+                }
+                usernameAuthInput.value = '';
+                passwordAuthInput.value = '';
+                authMessage.textContent = '';
+            }
 
-    function loadEntries() {
-      const list = document.getElementById('entries');
-      list.innerHTML = '';
-      (entries[currentUser] || []).slice().reverse().forEach(e => {
-        const div = document.createElement('div');
-        div.className = 'note';
-        div.innerHTML = `<strong>${e.time}</strong><br>${e.text}`;
-        list.appendChild(div);
-      });
-    }
-  </script>
+            function showMessageSection() {
+                authSection.classList.add('hidden');
+                messageSection.classList.add('visible');
+                homeButton.style.display = 'block';
+
+                authSection.style.position = 'absolute'; // Ẩn auth
+                messageSection.style.position = 'static'; // Hiển thị tin nhắn
+                authSection.style.transform = 'translateX(-100%)';
+                messageSection.style.transform = 'translateX(0)';
+                authSection.style.opacity = '0';
+                messageSection.style.opacity = '1';
+                messageSection.style.pointerEvents = 'all';
+
+                // Tải tin nhắn của người dùng hiện tại (giả lập)
+                loadMessagesForUser(currentUsername);
+            }
+
+            function loadMessagesForUser(user) {
+                messageList.innerHTML = ''; // Xóa tin nhắn cũ
+                if (userMessages[user]) {
+                    userMessages[user].forEach(msg => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = msg;
+                        messageList.appendChild(listItem);
+                    });
+                    messageList.scrollTop = messageList.scrollHeight; // Cuộn xuống cuối
+                }
+            }
+
+            // --- Xử lý Đăng Ký ---
+            registerBtn.addEventListener('click', () => {
+                const username = usernameAuthInput.value.trim();
+                const password = passwordAuthInput.value.trim();
+
+                if (!username || !password) {
+                    authMessage.textContent = 'Tên người dùng và mật khẩu không được để trống!';
+                    return;
+                }
+                if (users[username]) {
+                    authMessage.textContent = 'Tên người dùng này đã tồn tại. Vui lòng chọn tên khác.';
+                    return;
+                }
+
+                users[username] = password; // Lưu vào CSDL giả lập
+                userMessages[username] = []; // Khởi tạo mảng tin nhắn rỗng cho người dùng mới
+                authMessage.textContent = 'Đăng ký thành công! Bạn có thể đăng nhập ngay.';
+                authMessage.style.color = 'green';
+                showAuthSection(false); // Chuyển về chế độ đăng nhập
+            });
+
+            // --- Xử lý Đăng Nhập ---
+            loginBtn.addEventListener('click', () => {
+                const username = usernameAuthInput.value.trim();
+                const password = passwordAuthInput.value.trim();
+
+                if (users[username] === password) {
+                    isLoggedIn = true;
+                    currentUsername = username;
+                    authMessage.textContent = '';
+                    showMessageSection();
+                } else {
+                    authMessage.textContent = 'Tên người dùng hoặc mật khẩu không đúng.';
+                    authMessage.style.color = 'red';
+                }
+            });
+
+            // --- Chuyển đổi giữa Đăng ký và Đăng nhập ---
+            showRegisterSpan.addEventListener('click', () => showAuthSection(true));
+            showLoginSpan.addEventListener('click', () => showAuthSection(false));
+
+            // --- Xử lý Gửi Tin nhắn ---
+            sendButton.addEventListener('click', () => {
+                const messageText = messageInput.value.trim();
+                if (messageText && isLoggedIn) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = messageText;
+                    messageList.appendChild(listItem); // Thêm tin nhắn vào cuối danh sách
+                    messageList.scrollTop = messageList.scrollHeight; // Tự động cuộn xuống
+                    messageInput.value = ''; // Xóa nội dung input
+
+                    // Lưu tin nhắn vào CSDL giả lập của người dùng hiện tại
+                    if (!userMessages[currentUsername]) {
+                        userMessages[currentUsername] = [];
+                    }
+                    userMessages[currentUsername].push(messageText);
+                } else if (!isLoggedIn) {
+                    alert('Bạn cần đăng nhập để gửi tin nhắn!');
+                    showAuthSection(false);
+                }
+            });
+
+            messageInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+
+            // --- Nút Home để quay về trang đăng nhập ---
+            homeButton.addEventListener('click', () => {
+                isLoggedIn = false;
+                currentUsername = '';
+                showAuthSection(false);
+            });
+
+            // --- Khởi tạo ban đầu: hiển thị trang đăng nhập ---
+            showAuthSection(false);
+        });
+    </script>
 </body>
 </html>
